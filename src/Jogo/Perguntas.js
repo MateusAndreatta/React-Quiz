@@ -1,9 +1,12 @@
 import React from 'react'
 import { Grid,Container,Message,Button,Radio } from 'semantic-ui-react';
+import Navegacao from './Navegacao'
 
 const Perguntas = props =>{
     return(
-        <Container>
+        <div>
+            <Navegacao/>
+            <Container>
             <h2>Perguntas</h2>
             <p>Mostre que você conhece tudo sobre esse assunto</p>
         
@@ -41,6 +44,7 @@ const Perguntas = props =>{
             <br/>
             <Button>Finalizar</Button>
         </Container>
+        </div>
     )
 }
 
