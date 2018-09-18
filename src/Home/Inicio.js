@@ -22,8 +22,6 @@ class Inicio extends Component {
                     usuario,
                     estaLogado: true
                 })
-                localStorage.setItem('nome',usuario.displayName)
-                localStorage.setItem('foto',usuario.photoURL)
             } else{
                 console.log("nao logou")
                 this.setState({
