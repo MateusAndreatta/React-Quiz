@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom'
 import {Menu,Image} from 'semantic-ui-react'
 
 const Navegacao = props =>{
+    const nome = localStorage.getItem('nome')
+    const foto = localStorage.getItem('foto')
     return(
         <div>
             <header className="App-header">
@@ -15,7 +17,7 @@ const Navegacao = props =>{
                     <Menu.Item as={Link} to='/resultado'>Resultado</Menu.Item>
                     <Menu.Item as={Link} to='/ranking'>Ranking</Menu.Item>
                     <Menu.Menu position='right'>
-                        <Menu.Item><Image avatar src=''/>Mateus Andreatta</Menu.Item>
+                        <Menu.Item><Image avatar src={foto}/>{nome}</Menu.Item>
                     </Menu.Menu>
                 </Menu>
             </header>
