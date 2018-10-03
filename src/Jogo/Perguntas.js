@@ -7,7 +7,7 @@ const Perguntas = props =>{
         <div>
             <Navegacao/>
             <Container>
-            <h2>Perguntas</h2>
+            <h2>{JSON.stringify(props)}</h2>
             <p>Mostre que você conhece tudo sobre esse assunto</p>
         
             <h3>Pergunta</h3>
