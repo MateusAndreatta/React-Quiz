@@ -3,7 +3,7 @@ import {Container, Card, Button, Header, Segment} from 'semantic-ui-react'
 import {Redirect} from 'react-router-dom'
 
 import Navegacao from './Navegacao'
-import config, {auth, providers} from './../config'
+import {auth, providers} from './../config'
 
 class Inicio extends Component {
 
@@ -55,7 +55,7 @@ class Inicio extends Component {
                         </Card.Content>
                         <Card.Content>
                             <Button color='facebook' onClick={() => this.autentica('facebook')}>Login com Facebook</Button>
-                            <Button color='twitter'>Login com Twitter</Button>
+                            <Button color='twitter'  onClick={() => this.autentica('twitter')}>Login com Twitter</Button>
                             <Button basic color='blue'>Usuario Admin</Button>
                             
                         </Card.Content>     
