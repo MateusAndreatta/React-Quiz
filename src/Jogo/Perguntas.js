@@ -13,10 +13,13 @@ class Perguntas extends Component {
             perguntas: {},
             estaCarregando: false,
             perguntaAtual: 0,
-            totalPerguntas: 0
+            totalPerguntas: 0,
+            resposta: {},
+            pontos: 0
         }   
 
         this.proximaPergunta = this.proximaPergunta.bind(this)
+        this.onRadioChange = this.onRadioChange.bind(this)
     }
 
     componentDidMount(){
@@ -43,8 +46,7 @@ class Perguntas extends Component {
                 })
             })
             .catch(err => {
-                console.log("Erro aconteceu");
-                
+                console.log("Erro aconteceu")
             })
     }
 
@@ -53,11 +55,24 @@ class Perguntas extends Component {
         if(perguntaAtual<totalPerguntas-1){
             this.setState({perguntaAtual: this.state.perguntaAtual + 1})
         }else{
-            //Terminou as perguntas
+            console.log("PONTUAÇÃO", this.state.pontos)
         }
     }
 
-   renderPergunta(pergunta){
+    onRadioChange = (e,{resposta, name}) => {
+        this.setState({resposta})
+        const respostaJogador = resposta
+        const respostaCorreta = _.filter(this.state.perguntas.perguntas[name].alternativas, {'correta' : true})[0].resposta
+        const acertou = (respostaJogador === respostaCorreta)
+        console.log("resposta jogador", respostaJogador)
+        console.log("resposta correta", respostaCorreta)
+        console.log(acertou)
+        if(acertou){
+            this.setState({pontos: this.state.pontos +1})
+        }
+    }
+
+    renderPergunta(pergunta,id){ 
        return(
            <span>
             <h3>{pergunta.titulo}</h3>
@@ -66,13 +81,25 @@ class Perguntas extends Component {
                     <Grid.Column>
                     <Message color='yellow'>
                         <p>{pergunta.alternativas[1].resposta}</p>
-                        <Radio toggle/>
+                        <Radio 
+                            toggle
+                            name={id}
+                            checked={this.state.resposta === pergunta.alternativas[1].resposta}
+                            resposta={pergunta.alternativas[1].resposta}
+                            onChange={this.onRadioChange}
+                            />
                     </Message>
                     </Grid.Column>
                     <Grid.Column>
                     <Message color='teal'>
                         <p>{pergunta.alternativas[2].resposta}</p>
-                        <Radio toggle/>
+                        <Radio 
+                            toggle
+                            name={id}
+                            checked={this.state.resposta === pergunta.alternativas[2].resposta}
+                            resposta={pergunta.alternativas[2].resposta}
+                            onChange={this.onRadioChange}
+                            />
                     </Message>
                     </Grid.Column>
                 </Grid.Row>
@@ -80,13 +107,25 @@ class Perguntas extends Component {
                     <Grid.Column>
                     <Message color='pink'>
                         <p>{pergunta.alternativas[3].resposta}</p>
-                        <Radio toggle/>
+                        <Radio 
+                            toggle
+                            name={id}
+                            checked={this.state.resposta === pergunta.alternativas[3].resposta}
+                            resposta={pergunta.alternativas[3].resposta}
+                            onChange={this.onRadioChange}
+                            />
                     </Message>
                     </Grid.Column>
                     <Grid.Column>
                     <Message color='brown'>
                         <p>{pergunta.alternativas[4].resposta}</p>
-                        <Radio toggle/>
+                        <Radio 
+                            toggle
+                            name={id}
+                            checked={this.state.resposta === pergunta.alternativas[4].resposta}
+                            resposta={pergunta.alternativas[4].resposta}
+                            onChange={this.onRadioChange}
+                            />
                     </Message>
                     </Grid.Column>
                 </Grid.Row>
@@ -114,7 +153,7 @@ class Perguntas extends Component {
                     })
             }
             {
-                this.state.perguntas.perguntas && this.renderPergunta(this.state.perguntas.perguntas[item[this.state.perguntaAtual]])
+                this.state.perguntas.perguntas && this.renderPergunta(this.state.perguntas.perguntas[item[this.state.perguntaAtual]], item[this.state.perguntaAtual])
                     //return this.renderPergunta(this.state.perguntas.perguntas[key], key)
             }
                 <Progress value={this.state.perguntaAtual +1} total={item.length} progress="ratio"/>
