@@ -10,7 +10,7 @@ const tamanho ={
 const Categoria = props =>{
     return(
         <Grid.Column>
-            <Link to={`/perguntas/${props.id}`}>
+            <Link to={`/perguntas/${props.titulo}`}>
             <Segment circular style={tamanho}>
                 <Header as='h2'>{props.titulo}</Header>
                 <Header.Subheader>
