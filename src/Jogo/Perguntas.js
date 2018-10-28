@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Grid,Container,Message,Button,Radio,Icon,Progress } from 'semantic-ui-react';
 import Navegacao from './Navegacao'
+import {Redirect} from 'react-router-dom'
 import axios from 'axios'
 import _ from 'lodash'
 
@@ -15,7 +16,9 @@ class Perguntas extends Component {
             perguntaAtual: 0,
             totalPerguntas: 0,
             resposta: {},
-            pontos: 0
+            pontos: 0,
+            resultado: [],
+            terminei: false
         }   
 
         this.proximaPergunta = this.proximaPergunta.bind(this)
@@ -56,6 +59,7 @@ class Perguntas extends Component {
             this.setState({perguntaAtual: this.state.perguntaAtual + 1})
         }else{
             console.log("PONTUAÇÃO", this.state.pontos)
+            this.setState({terminei:true})
         }
     }
 
@@ -67,6 +71,13 @@ class Perguntas extends Component {
         console.log("resposta jogador", respostaJogador)
         console.log("resposta correta", respostaCorreta)
         console.log(acertou)
+
+        const res = {
+            pergunta: this.state.perguntas.perguntas[name].titulo,
+            resposta,
+            acertou
+        }
+        this.setState({resultado: [... this.state.resultado, res]})
         if(acertou){
             this.setState({pontos: this.state.pontos +1})
         }
@@ -139,6 +150,17 @@ class Perguntas extends Component {
         if(this.state.estaCarregando){
             return <p>Carregando...</p>
         }
+        if(this.state.terminei){
+            return(
+                <Redirect to= {{
+                    pathname: '/resultado',
+                    state: {
+                        resultado: this.state.resultado,
+                        pontos: this.state.pontos
+                    }}
+                } />
+            )   
+        }
         return(
             <div>
                 <Navegacao/>
@@ -154,7 +176,6 @@ class Perguntas extends Component {
             }
             {
                 this.state.perguntas.perguntas && this.renderPergunta(this.state.perguntas.perguntas[item[this.state.perguntaAtual]], item[this.state.perguntaAtual])
-                    //return this.renderPergunta(this.state.perguntas.perguntas[key], key)
             }
                 <Progress value={this.state.perguntaAtual +1} total={item.length} progress="ratio"/>
                 <Button onClick={this.proximaPergunta}>Próxima</Button>

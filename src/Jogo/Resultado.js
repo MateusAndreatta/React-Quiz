@@ -3,25 +3,30 @@ import { Container,List } from 'semantic-ui-react';
 import Resposta from './Resposta'
 import Navegacao from './Navegacao'
 
-const resposta = {
-    id:1,
-    titulo: 'Primeira pergunta',
-    alternativa: 3
-}
-
 class Resultado extends Component{
     render(){
+        const {resultado, pontos} = this.props.location.state
         return(
             <div>
                 <Navegacao/>
                 <h2>Seus Resultados</h2>
                 <p>Confira o seu desempenho nesta categoria</p>
                 <Container>
-                    <List divided verticalAlign='left'>
-                        <Resposta resposta={resposta}/>
+                    <List divided>
+                    {
+                        Object.keys(resultado)
+                            .map(key => {
+                                return (
+                                <Resposta 
+                                pergunta={resultado[key].pergunta} 
+                                resposta={resultado[key].resposta} 
+                                acertou ={resultado[key].acertou}
+                                key={key}/>
+                            )})
+                    }
                     </List>
                 </Container>
-
+                <h3>Total {pontos} Pontos</h3>
             </div>
         )
     }
